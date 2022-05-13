@@ -13,8 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,7 +48,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public Vibrator v;
 
 	private TextView currentX, currentY, currentZ, maxX, maxY, maxZ;
-	private Button butReset, butSaveMax, butSaveCurrent;
+	private Button butReset, butSaveMax, butSaveCurrent, butDelete;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -118,15 +122,59 @@ public class MainActivity extends Activity implements SensorEventListener {
 			}
 		});
 
-		// Reset button listener
+
 		butSaveCurrent = (Button) findViewById(R.id.buttonSaveCurrent);
 		butSaveCurrent.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View view) {
-				DatabaseReference myUsersRef = database.getReference();
+				DatabaseReference myRef = database.getReference();
 				Date d = new Date();
-				SimpleDateFormat sm = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-				String strDate = sm.format(d);
-				myUsersRef.child("timestamps").push().setValue(strDate);
+				SimpleDateFormat sdfD = new SimpleDateFormat("dd");
+				SimpleDateFormat sdfM = new SimpleDateFormat("MMMM");
+				SimpleDateFormat sdfY = new SimpleDateFormat("yyyy");
+				SimpleDateFormat sdfHMS = new SimpleDateFormat("HH:mm:ss");
+
+				//String strDate = sm.format(d);
+				// ref.child("timestamps").push().setValue(strDate);
+				Map<String,Object> m = new HashMap<>();
+				m.put("dia", sdfD.format(d));
+				m.put("mes", sdfM.format(d));
+				m.put("anio", sdfY.format(d));
+				m.put("hora", sdfHMS.format(d));
+				m.put("timestamp", d.getTime());
+
+				myRef.child("timestamps").push().setValue(m);
+
+			}
+		});
+
+
+		butDelete = (Button) findViewById(R.id.buttonDeleteItem);
+		butDelete.setOnClickListener(new View.OnClickListener(){
+			public void onClick(View view) {
+
+				Date d = new Date();
+				SimpleDateFormat sdfM = new SimpleDateFormat("MMMM");
+				String sFilter = sdfM.format(d).toString();
+
+				Log.i(TAG, "About to remove item in collection timestamps in the current month "+sFilter);
+
+				DatabaseReference ref = database.getReference();
+				ref = FirebaseDatabase.getInstance().getReference();
+				Query query = ref.child("timestamps").orderByChild("mes").equalTo(sFilter);
+				query.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(DataSnapshot dataSnapshot) {
+						for (DataSnapshot dSnap: dataSnapshot.getChildren()) {
+							dSnap.getRef().removeValue();
+						}
+					}
+
+					@Override
+					public void onCancelled(DatabaseError databaseError) {
+						Log.e(TAG, "onCancelled", databaseError.toException());
+					}
+				});
+
 			}
 		});
 

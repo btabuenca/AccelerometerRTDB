@@ -15,56 +15,55 @@
         android:text="Max Acceleration"
         android:textSize="20sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="X-Axis"
-        android:textSize="15dp" />
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/maxX"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:text="0.0"
-        android:textSize="20dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="X-Axis: " />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="Y-Axis"
-        android:textSize="15dp" />
+        <TextView
+            android:id="@+id/maxX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0.0" />
 
-    <TextView
-        android:id="@+id/maxY"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:text="0.0"
-        android:textSize="20dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="Y-Axis: " />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="Z-Axis"
-        android:textSize="15dp" />
+        <TextView
+            android:id="@+id/maxY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0.0" />
 
-    <TextView
-        android:id="@+id/maxZ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:text="0.0"
-        android:textSize="20dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="Z-Axis: " />
+
+        <TextView
+            android:id="@+id/maxZ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0.0" />
+
+    </LinearLayout>
 
     <View
         android:id="@+id/divider"
@@ -89,7 +88,13 @@
         android:id="@+id/buttonSaveCurrent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add current time" />
+        android:text="Add timestamp into Firebase db" />
+
+    <Button
+        android:id="@+id/buttonDeleteItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete timestamp from Firebase db" />
 
     <TextView
         android:layout_width="wrap_content"
